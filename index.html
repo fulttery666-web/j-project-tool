@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
 <style>
     /* 1. 全域字體設定 */
-    body { 
+    body { 
         font-family: 'Noto Sans TC', 'Microsoft JhengHei', Arial, sans-serif; 
         margin: 0; 
         padding: 0; 
@@ -15,16 +15,16 @@
     }
     
     /* 導覽列 */
-    .nav { display: flex; background: #333; color: white; }
-    .nav button {
-        flex: 1; padding: 15px; border: none; background: #333; color: white;
-        font-size: 16px; cursor: pointer;
-    }
-    .nav button.active { background: #555; }
-.page { display: none; padding: 20px; max-width: 1000px; margin: auto; }
-.page.active { display: block; }
+    .nav { display: flex; background: #333; color: white; }
+    .nav button {
+        flex: 1; padding: 15px; border: none; background: #333; color: white;
+        font-size: 16px; cursor: pointer;
+    }
+    .nav button.active { background: #555; }
+    .page { display: none; padding: 20px; max-width: 1000px; margin: auto; }
+    .page.active { display: block; }
 
-    h2 { margin-top: 0; color: #333; }
+    h2 { margin-top: 0; color: #333; }
     h3 { border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-top: 30px; }
 
     /* --- 欄位對齊優化 --- */
@@ -51,14 +51,14 @@
         flex-grow: 1; 
     }
 
-    .field-row input, .field-row textarea {
-        width: 100%; 
-        padding: 10px; 
-        border: 1px solid #ccc; 
-        border-radius: 5px;
-        box-sizing: border-box; 
-        resize: vertical; 
-    }
+    .field-row input, .field-row textarea {
+        width: 100%; 
+        padding: 10px; 
+        border: 1px solid #ccc; 
+        border-radius: 5px;
+        box-sizing: border-box; 
+        resize: vertical; 
+    }
 
     /* 專門給單一原始資料輸入區的樣式 */
     #rawInputContainer, #rawInputContainer_full {
@@ -67,7 +67,7 @@
     }
 
     /* AI 結果顯示區 */
-    .ai-result-section { 
+    .ai-result-section { 
         border-left-color: #007bff; 
         padding-left: 10px;
         margin-bottom: 20px;
@@ -81,154 +81,154 @@
         margin-bottom: 15px;
     }
 
-    button.action {
-        padding: 10px 15px; background: #007bff; color: white;
-        border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;
+    button.action {
+        padding: 10px 15px; background: #007bff; color: white;
+        border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;
         margin-bottom: 10px;
         transition: background 0.3s;
-    }
-    button.action:hover { background: #005fcc; }
+    }
+    button.action:hover { background: #005fcc; }
 
-    .outputBox { /* 輸出區使用共用 class */
-        white-space: pre-wrap;
-        background: #fff8e1; 
-        padding: 20px;
-        margin-top: 20px;
-        border-radius: 8px;
-        border: 1px solid #ffcc80; 
-        min-height: 100px;
-        font-size: 15px;
-        color: #333;
-    }
+    .outputBox { /* 輸出區使用共用 class */
+        white-space: pre-wrap; /* 解決自動換行問題 */
+        background: #fff8e1; 
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 8px;
+        border: 1px solid #ffcc80; 
+        min-height: 100px;
+        font-size: 15px;
+        color: #333;
+    }
 </style>
 </head>
 
 <body>
 
 <div class="nav">
-    <button class="active" onclick="switchPage('runPage', this)">陪跑</button>
-    <button onclick="switchPage('fullPage', this)">收單一條龍</button>
+    <button class="active" onclick="switchPage('runPage', this)">陪跑</button>
+    <button onclick="switchPage('fullPage', this)">收單一條龍</button>
 </div>
 
 <div id="runPage" class="page active">
-    <h2>陪跑學員建檔</h2>
+    <h2>陪跑學員建檔</h2>
     
-        <div class="field-row">
-        <label for="name">名稱</label>
+        <div class="field-row">
+        <label for="name">名稱</label>
         <div class="input-container">
-            <input id="name" />
+            <input id="name" />
         </div>
-    </div>
+    </div>
 
-    <div class="field-row">
-        <label for="ig">IG 連結</label>
+    <div class="field-row">
+        <label for="ig">IG 連結</label>
         <div class="input-container">
-            <input id="ig" />
+            <input id="ig" />
         </div>
-    </div>
+    </div>
 
-    <div class="field-row" style="margin-bottom: 30px;">
-        <label for="type">經營類型</label>
+    <div class="field-row" style="margin-bottom: 30px;">
+        <label for="type">經營類型</label>
         <div class="input-container">
-            <input id="type" />
+            <input id="type" />
         </div>
-    </div>
-    
+    </div>
+    
 
-        <div class="field-row" id="rawInputContainer" style="flex-direction: column;">
+        <div class="field-row" id="rawInputContainer" style="flex-direction: column;">
         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <label style="width: auto; text-align: left;">背景資料整理（貼原始檔案的一大段文字）</label>
+            <label style="width: auto; text-align: left;">背景資料整理（貼原始檔案的一大段文字）</label>
             <button class="action" onclick="summarize('run')">AI 自動解析並整理</button>
         </div>
-        <textarea id="raw_data_input_run" rows="12"></textarea>
-    </div>
+        <textarea id="raw_data_input_run" rows="12"></textarea>
+    </div>
     
     <hr>
     
-    <h3 style="margin-bottom: 20px;">✅ AI 整理結果</h3>
+    <h3 style="margin-bottom: 20px;">✅ AI 整理結果</h3>
     
     <div class="ai-result-section">
-        <label for="reason_ai_run">📌 陪跑原因 (AI 整理)</label>
-        <textarea id="reason_ai_run" rows="4" readonly></textarea>
-    </div>
+        <label for="reason_ai_run">📌 陪跑原因 (AI 整理)</label>
+        <textarea id="reason_ai_run" rows="4" readonly></textarea>
+    </div>
 
     <div class="ai-result-section">
-        <label for="goal_ai_run">✅ 經營目標 (AI 整理)</label>
-        <textarea id="goal_ai_run" rows="4" readonly></textarea>
-    </div>
+        <label for="goal_ai_run">✅ 經營目標 (AI 整理)</label>
+        <textarea id="goal_ai_run" rows="4" readonly></textarea>
+    </div>
 
     <div class="ai-result-section">
-        <label for="background_ai_run">💡 背景資料 (AI 整理)</label>
-        <textarea id="background_ai_run" rows="4" readonly></textarea>
-    </div>
+        <label for="background_ai_run">💡 背景資料 (AI 整理)</label>
+        <textarea id="background_ai_run" rows="4" readonly></textarea>
+    </div>
     
     <hr>
 
-    <button class="action" onclick="generateOutput('run')">輸出整合內容</button>
+    <button class="action" onclick="generateOutput('run')">輸出整合內容</button>
 
-    <h3>輸出區 (請複製以下內容到 LINE 記事本)</h3>
-    <div id="outputBox_run" class="outputBox"></div>
+    <h3>輸出區 (請複製以下內容到 LINE 記事本)</h3>
+    <div id="outputBox_run" class="outputBox"></div>
 </div>
 
 
 <div id="fullPage" class="page">
-    <h2>收單一條龍客戶建檔</h2>
+    <h2>收單一條龍客戶建檔</h2>
     
-        <div class="field-row">
-        <label for="name_full">名稱</label>
+        <div class="field-row">
+        <label for="name_full">名稱</label>
         <div class="input-container">
-            <input id="name_full" />
+            <input id="name_full" />
         </div>
-    </div>
+    </div>
 
-    <div class="field-row">
-        <label for="ig_full">IG 連結</label>
+    <div class="field-row">
+        <label for="ig_full">IG 連結</label>
         <div class="input-container">
-            <input id="ig_full" />
+            <input id="ig_full" />
         </div>
-    </div>
+    </div>
 
-    <div class="field-row" style="margin-bottom: 30px;">
-        <label for="type_full">經營類型</label>
+    <div class="field-row" style="margin-bottom: 30px;">
+        <label for="type_full">經營類型</label>
         <div class="input-container">
-            <input id="type_full" />
+            <input id="type_full" />
         </div>
-    </div>
-    
+    </div>
+    
 
-        <div class="field-row" id="rawInputContainer_full" style="flex-direction: column;">
+        <div class="field-row" id="rawInputContainer_full" style="flex-direction: column;">
         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <label style="width: auto; text-align: left;">收單背景資料（貼原始檔案的一大段文字）</label>
+            <label style="width: auto; text-align: left;">收單背景資料（貼原始檔案的一大段文字）</label>
             <button class="action" onclick="summarize('full')">AI 自動解析並整理</button>
         </div>
-        <textarea id="raw_data_input_full" rows="12"></textarea>
-    </div>
+        <textarea id="raw_data_input_full" rows="12"></textarea>
+    </div>
     
     <hr>
     
-    <h3 style="margin-bottom: 20px;">✅ AI 整理結果</h3>
+    <h3 style="margin-bottom: 20px;">✅ AI 整理結果</h3>
     
     <div class="ai-result-section">
-        <label for="reason_ai_full">📝 參加原因 (AI 整理)</label>
-        <textarea id="reason_ai_full" rows="4" readonly></textarea>
-    </div>
+        <label for="reason_ai_full">📝 參加原因 (AI 整理)</label>
+        <textarea id="reason_ai_full" rows="4" readonly></textarea>
+    </div>
 
     <div class="ai-result-section">
-        <label for="goal_ai_full">📈 經營目標 (AI 整理)</label>
-        <textarea id="goal_ai_full" rows="4" readonly></textarea>
-    </div>
+        <label for="goal_ai_full">📈 經營目標 (AI 整理)</label>
+        <textarea id="goal_ai_full" rows="4" readonly></textarea>
+    </div>
 
     <div class="ai-result-section">
-        <label for="background_ai_full">💪 背景/優勢 (AI 整理)</label>
-        <textarea id="background_ai_full" rows="4" readonly></textarea>
-    </div>
+        <label for="background_ai_full">💪 背景/優勢 (AI 整理)</label>
+        <textarea id="background_ai_full" rows="4" readonly></textarea>
+    </div>
     
     <hr>
 
-    <button class="action" onclick="generateOutput('full')">輸出整合內容</button>
+    <button class="action" onclick="generateOutput('full')">輸出整合內容</button>
 
-    <h3>輸出區 (請複製以下內容到 LINE 記事本)</h3>
-    <div id="outputBox_full" class="outputBox"></div>
+    <h3>輸出區 (請複製以下內容到 LINE 記事本)</h3>
+    <div id="outputBox_full" class="outputBox"></div>
 </div>
 
 
@@ -241,24 +241,58 @@ function switchPage(pageId, button) {
     button.classList.add('active');
 }
 
-// !! ⭐ 最終修正：請將您新生成的 Key 貼入此處，並確保引號完整 !!
+// !! ⭐ 必填：請將您的 Google Gemini API Key 貼入此處 !!
 const API_KEY = "AIzaSyCzVGPgU4jI1XONen4PSXV7MqGCNZPmk44"; 
 const GEMINI_MODEL = 'gemini-2.5-flash'; 
 
 /**
- * 處理 AI 整理的核心函式 (最終修正 400 錯誤)
+ * 處理 AI 整理的核心函式 (包含所有 400 錯誤修正)
  * @param {string} pageType - 頁面類型 ('run' for 陪跑, 'full' for 收單一條龍)
  */
 async function summarize(pageType) {
-    // ... (前略，變數定義部分不變) ...
+    const suffix = pageType === 'run' ? '_run' : '_full';
+    
+    let classificationKeys;
+    let categoryNames;
+    
+    if (pageType === 'run') {
+        classificationKeys = ["reason", "goal", "background"];
+        categoryNames = ["陪跑原因", "客戶目標", "背景資料"];
+    } else { // full
+        classificationKeys = ["reason_full", "goal_full", "background_full"];
+        categoryNames = ["參加原因", "經營目標", "背景和優勢"];
+    }
 
     const rawTextarea = document.getElementById("raw_data_input" + suffix);
     const text = rawTextarea.value;
-    // ... (中略，錯誤檢查部分不變) ...
+    
+    const outputTextareas = {
+        [classificationKeys[0]]: document.getElementById(classificationKeys[0].replace('_full', '_ai_full').replace('reason', 'reason_ai_run')),
+        [classificationKeys[1]]: document.getElementById(classificationKeys[1].replace('_full', '_ai_full').replace('goal', 'goal_ai_run')),
+        [classificationKeys[2]]: document.getElementById(classificationKeys[2].replace('_full', '_ai_full').replace('background', 'background_ai_run'))
+    };
+
+    if (!text.trim()) {
+        console.error("錯誤：請先貼入原始資料！");
+        alert("請先貼入原始資料！");
+        return;
+    }
+    
+    if (API_KEY === "YOUR_API_KEY_HERE" || API_KEY.length < 20) {
+        console.error("錯誤：請先填入您的 Google Gemini API Key！");
+        Object.values(outputTextareas).forEach(ta => ta.value = "錯誤：請先在程式碼中填入您的 Google Gemini API Key！");
+        return;
+    }
+    
+    Object.values(outputTextareas).forEach(ta => {
+        ta.value = '';
+        ta.placeholder = "（Gemini AI 正在解析與整理中，請稍候…）";
+    });
+    rawTextarea.style.border = '2px solid orange'; 
 
     try {
         
-        // ⭐️ 修正：將 JSON 格式要求獨立出來，不放在 systemPrompt 中
+        // 修正 JSON 結構錯誤 (解決 400 錯誤的關鍵)
         const jsonSchema = {
             type: "object",
             properties: {
@@ -276,7 +310,6 @@ async function summarize(pageType) {
         
         請使用**清晰的條列式**摘要呈現，避免加入主觀推測。`;
         
-        // ⭐️ 修正：API 呼叫的 config 部分，改用 responseSchema 確保 JSON 輸出
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${API_KEY}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -287,27 +320,40 @@ async function summarize(pageType) {
                     }],
                 config: {
                     temperature: 0.0, 
-                    // 🚨 使用 responseSchema 取代 responseMimeType，更安全
                     responseMimeType: "application/json", 
-                    responseSchema: jsonSchema
+                    responseSchema: jsonSchema // 使用 Schema 確保 JSON 輸出
                 }
                 })
         });
         
         if (!response.ok) {
-            // 這裡會捕獲 400 Bad Request
             throw new Error(`API 錯誤：${response.status} ${response.statusText}`);
         }
 
         const result = await response.json();
-        // ... (後略，結果處理部分不變) ...
+        const jsonString = result.candidates?.[0]?.content?.parts?.[0]?.text;
         
+        if (jsonString) {
+            const parsedData = JSON.parse(jsonString);
+            
+            outputTextareas[classificationKeys[0]].value = parsedData[classificationKeys[0]] ? parsedData[classificationKeys[0]].trim() : 'AI 無法解析此分類';
+            outputTextareas[classificationKeys[1]].value = parsedData[classificationKeys[1]] ? parsedData[classificationKeys[1]].trim() : 'AI 無法解析此分類';
+            outputTextareas[classificationKeys[2]].value = parsedData[classificationKeys[2]] ? parsedData[classificationKeys[2]].trim() : 'AI 無法解析此分類';
+        } else {
+             const errorMsg = "AI 解析失敗，無有效 JSON 回應。請檢查原始輸入內容。";
+             Object.values(outputTextareas).forEach(ta => ta.value = errorMsg);
+             console.error("Gemini API 回應結構錯誤:", result);
+        }
+
     } catch (error) {
-        // ... (後略，錯誤訊息處理部分不變) ...
+        console.error("AI 整理失敗：", error);
+        const errorMsg = `AI 整理失敗，請檢查 API Key 或網路連線。錯誤資訊：${error.message}`;
+        Object.values(outputTextareas).forEach(ta => ta.value = errorMsg);
     } finally {
-        // ... (後略) ...
+        Object.values(outputTextareas).forEach(ta => ta.placeholder = ""); 
+        rawTextarea.style.border = '1px solid #ccc'; 
     }
-}
+} 
 
 /**
  * 輸出整合內容 (修正格式和純換行)
@@ -317,12 +363,10 @@ function generateOutput(pageType) {
     const suffix = pageType === 'run' ? '_run' : '_full';
     const outputBoxId = "outputBox" + suffix;
 
-    // 抓取固定欄位
     const name = document.getElementById("name" + (pageType === 'full' ? '_full' : '')).value;
     const ig = document.getElementById("ig" + (pageType === 'full' ? '_full' : '')).value;
     const type = document.getElementById("type" + (pageType === 'full' ? '_full' : '')).value;
     
-    // 抓取 AI 整理後的內容
     const reason = document.getElementById("reason_ai" + suffix).value; 
     const goal = document.getElementById("goal_ai" + suffix).value;
     const background = document.getElementById("background_ai" + suffix).value;
@@ -330,21 +374,18 @@ function generateOutput(pageType) {
     let title, reasonLabel, goalLabel, backgroundLabel;
     
     if (pageType === 'run') {
-        title = "陪跑客戶建檔";
         reasonLabel = "📌 陪跑原因";
         goalLabel = "✅ 客戶目標";
         backgroundLabel = "💡 背景/優勢";
     } else { // full
-        title = "收單一條龍建檔";
         reasonLabel = "📝 參加原因";
         goalLabel = "📈 經營目標";
         backgroundLabel = "💪 背景/優勢";
     }
 
-    // ⭐️ 修正：移除所有分隔線，保持純換行
     const output =
 `客戶檔案✏️ 
-[${name || '（未命名）'}]
+【${name || '（未命名）'}】
 
 🔗 IG 連結：http://instagram.com/${ig || '（未輸入）'}
 💼 經營類型：${type || '（未輸入）'}
@@ -363,7 +404,10 @@ ${background || '（尚未整理）'}
 } 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 這裡只是確保 ID 的健壯性，理論上在 HTML 中已經定義了
+    // 首次載入時啟動 'runPage'
+    switchPage('runPage', document.querySelector('.nav button'));
 });
-
 </script>
+
+</body>
+</html>
