@@ -241,8 +241,8 @@ function switchPage(pageId, button) {
     button.classList.add('active');
 }
 
-// !! ⭐ 必填：請換成您的 Google Gemini API Key !!
-const API_KEY = "AIzaSyCNODq4MTzWieGU-2QieQQ19f6LwfNqIJc"; // <<<<<<< 請替換成您的真實 Key！
+// !! ⭐ 最終修正：請將您新生成的 Key 貼入此處，並確保引號完整 !!
+const API_KEY = "AIzaSyCzVGPgU4jI1XONen4PSXV7MqGCNZPmk44"; 
 const GEMINI_MODEL = 'gemini-2.5-flash'; 
 
 /**
@@ -280,8 +280,8 @@ async function summarize(pageType) {
         return;
     }
     
-    // 檢查 API Key
-    if (API_KEY === "YOUR_GEMINI_API_KEY") {
+    // 檢查 API Key 是否已填入
+    if (API_KEY === "請貼入您全新的 API Key" || API_KEY.length < 20) {
         console.error("錯誤：請先填入您的 Google Gemini API Key！");
         alert("請先在程式碼中填入您的 Google Gemini API Key！");
         Object.values(outputTextareas).forEach(ta => ta.value = "錯誤：請先填入您的 Google Gemini API Key！");
@@ -297,7 +297,7 @@ async function summarize(pageType) {
 
     try {
         
-        // 動態生成 JSON 提示詞 (修正了 categoryKeys 錯誤和變數作用域)
+        // 修正 systemPrompt 變數名稱錯誤 (解決 400 錯誤的關鍵)
         const systemPrompt = `你是一位資深客戶顧問，請將使用者貼上的一大段原始資料，**精準解析**並**嚴格**整理成以下三個獨立的欄位：
         1. ${categoryNames[0]} (Key: ${classificationKeys[0]})
         2. ${categoryNames[1]} (Key: ${classificationKeys[1]})
@@ -309,10 +309,11 @@ async function summarize(pageType) {
         
         {
           "${classificationKeys[0]}": "整理後的${categoryNames[0]}（條列式）",
-          "${classificationKeys[1]}": "整理後的${categoryNames[1]}（條列式）", // 確保使用 categoryNames
-          "${classificationKeys[2]}": "整理後的${categoryNames[2]}（條列式）"  // 確保使用 categoryNames
+          "${classificationKeys[1]}": "整理後的${categoryNames[1]}（條列式）",
+          "${classificationKeys[2]}": "整理後的${categoryNames[2]}（條列式）"
         }`;
         
+        // API 呼叫使用硬編碼的 Key
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${API_KEY}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -343,7 +344,7 @@ async function summarize(pageType) {
             outputTextareas[classificationKeys[1]].value = parsedData[classificationKeys[1]] ? parsedData[classificationKeys[1]].trim() : 'AI 無法解析此分類';
             outputTextareas[classificationKeys[2]].value = parsedData[classificationKeys[2]] ? parsedData[classificationKeys[2]].trim() : 'AI 無法解析此分類';
         } else {
-             const errorMsg = "AI 解析失敗，無有效 JSON 回應。請檢查 API Key 或原始輸入內容是否有不當資訊。";
+             const errorMsg = "AI 解析失敗，無有效 JSON 回應。請檢查原始輸入內容。";
              Object.values(outputTextareas).forEach(ta => ta.value = errorMsg);
              console.error("Gemini API 回應結構錯誤:", result);
         }
@@ -356,10 +357,10 @@ async function summarize(pageType) {
         Object.values(outputTextareas).forEach(ta => ta.placeholder = ""); 
         rawTextarea.style.border = '1px solid #ccc'; 
     }
-} // <-- summarize 函式的正確結束點
+} 
 
 /**
- * 輸出整合內容 (修正了輸出格式和換行)
+ * 輸出整合內容 (修正格式和純換行)
  * @param {string} pageType - 頁面類型 ('run' for 陪跑, 'full' for 收單一條龍)
  */
 function generateOutput(pageType) {
@@ -390,7 +391,7 @@ function generateOutput(pageType) {
         backgroundLabel = "💪 背景/優勢";
     }
 
-    // 修正輸出格式，使用 \n 確保換行，並移除多餘的裝飾線
+    // ⭐️ 修正：移除所有分隔線，保持純換行
     const output =
 `客戶檔案✏️ 
 [${name || '（未命名）'}]
@@ -406,15 +407,13 @@ ${goal || '（尚未整理）'}
 
 ${backgroundLabel}：
 ${background || '（尚未整理）'}
-
-`; // 移除最終的分號
+`;
 
     document.getElementById(outputBoxId).textContent = output;
-} // <-- generateOutput 函式的正確結束點
+} 
 
-// 首次加載時，為陪跑頁面的元素加上 run 後綴 (防止在 HTML 中忘記加)
 document.addEventListener('DOMContentLoaded', () => {
     // 這裡只是確保 ID 的健壯性，理論上在 HTML 中已經定義了
-}); // <-- DOMContentLoaded 的正確結束點
+});
 
 </script>
