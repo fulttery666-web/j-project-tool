@@ -359,7 +359,7 @@ async function summarize(pageType) {
 } // <-- summarize 函式的正確結束點
 
 /**
- * 輸出整合內容
+ * 輸出整合內容 (修正了輸出格式和換行)
  * @param {string} pageType - 頁面類型 ('run' for 陪跑, 'full' for 收單一條龍)
  */
 function generateOutput(pageType) {
@@ -390,17 +390,13 @@ function generateOutput(pageType) {
         backgroundLabel = "💪 背景/優勢";
     }
 
+    // 修正輸出格式，使用 \n 確保換行，並移除多餘的裝飾線
     const output =
-`客戶檔案✏️
-【${title}：${name}】
-
----
+`客戶檔案✏️ 
+[${name || '（未命名）'}]
 
 🔗 IG 連結：http://instagram.com/${ig || '（未輸入）'}
 💼 經營類型：${type || '（未輸入）'}
-
----
-**🎯 核心資訊摘要**
 
 ${reasonLabel}：
 ${reason || '（尚未整理）'}
@@ -411,8 +407,7 @@ ${goal || '（尚未整理）'}
 ${backgroundLabel}：
 ${background || '（尚未整理）'}
 
----
-`;
+`; // 移除最終的分號
 
     document.getElementById(outputBoxId).textContent = output;
 } // <-- generateOutput 函式的正確結束點
